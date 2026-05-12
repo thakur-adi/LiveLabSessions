@@ -1,0 +1,137 @@
+
+##Task: Inventory Management System. Milestone 1:Implement Inventory Item Hierarchy##
+
+
+
+Milestone 1:Implement Inventory Item Hierarchy
+
+Create a base Item class and specialized subclasses for an inventory management system.
+
+Step 1: Create Item Class
+    ● Defi ne Item class with fi elds: id, name, price, quantity
+    ● Add constructor and getter/setter methods
+    ● Implement Comparable<Item> interface
+    ● Override compareTo method to sort by price in ascending order
+
+Step 2: Create Subclasses
+    Create three classes that extend Item:
+        Book Class:
+        ● Add author fi eld
+        Clothing Class:
+        ● Add size fi eld
+        Electronics Class:
+        ● Add warranty fi eld (integer)
+
+
+
+Milestone 2: Implement Generic Inventory Class
+
+Create a generic Inventory class that can manage different types of items (Books, Clothing, Electronics) with validation and exception handling.
+
+Step 1: Design Generic Class
+    ● Create Inventory<T extends Item> class using bounded generics
+    ● Use HashMap<String, T> to store items with ID as key
+    ● Initialize HashMap in constructor
+
+Step 2: Implement Add Method
+    ● Create add(T item) method
+    ● Check if quantity is negative and throw InvalidQuantityException exception with appropriate message
+    ● Check for duplicate IDs using containsKey() and throw DuplicateItemException
+    ● Add item to HashMap if validations pass
+
+Step 3: Implement Utility Methods
+    Remove Method:
+        ● Create remove(T item) method
+        ● Remove item from HashMap using item ID
+    Get Methods:
+        ● get(String id) - return single item by ID
+        ● getAll() - return List<T> containing all items using new ArrayList<>(items.values())
+
+
+The generic approach allows one Inventory class to work with Book, Clothing, and Electronics objects while maintaining type safety.
+
+ NOTE : Throw RuntimeException if custom exception creation is not known yet
+
+
+
+Milestone 3: Implement Recently Viewed Items Tracker
+
+Create a system to track the most recent items viewed with a fi xed capacity, handling re-visits efficiently.
+
+Step 1: Choose Data Structure
+    ● Use LinkedList<Item> instead of Queue for fl exibility
+    ● LinkedList allows effi cient removal from middle, addition at front, and removal from end
+    ● Queue alone cannot handle re-visiting existing items properly
+
+Step 2: Initialize Class
+    ● Create RecentlyViewItems class with LinkedList<Item> fi eld
+    ● Set MAX_SIZE constant (e.g., 3 for testing)
+    ● Initialize empty LinkedList in constructor
+
+Step 3: Implement Add Method
+    Create addRecentlyViewedItem(Item item) method:
+        ● First remove the item if already present using items.remove(item)
+        ● Add item to front using addFirst(item)
+        ● Check if size exceeds MAX_SIZE and remove last item using removeLast()
+
+Step 4: Implement Get Method
+    ● Create getRecentlyViewedItems() method
+    ● Return new ArrayList<>(items) to provide safe copy of current list
+
+Why LinkedList?
+    ● Handles duplicate views: removes existing item and moves it to front
+    ● Effi cient operations: O(1) for add/remove at ends, O(n) for middle removal
+    ● Maintains chronological order with most recent fi rst
+    ● Simple capacity management by removing from tail
+
+
+
+
+Milestone 4: Implement Priority-Based Order Processing
+
+Create an order processing system that handles Express and Regular orders with priority-based processing.
+
+Step 1: Design Order Class
+    ● Create Order class with fi elds: orderId (String) and isExpress (boolean)
+    ● Add constructor and getter/setter methods
+    ● Implement Comparable<Order> interface for priority sorting
+
+Step 2: Implement Priority Logic
+    Override compareTo(Order o) method with following priority rules:
+
+        ● If both orders have same type (both express or both regular), compare by orderId alphabetically
+        ● Else express order has higher priority
+
+Step 3: Create OrderProcessor Class
+    ● Use PriorityQueue<Order> instead of regular Queue for automatic priority sorting
+    ● Initialize PriorityQueue in constructor
+
+Step 4: Implement Processing Methods
+    Add Order:
+        ● Create addOrder(Order order)
+        ● Create processOrder()
+        ● Add getSize() method to check remaining orders Solution: Order.java package InventoryManagementSystem;
+
+
+
+
+Milestone 5 : Implement Custom Comparators and Inventory Filtering
+
+Create custom sorting comparators and add filtering/sorting functionality to the Inventory class.
+
+Step 1: Create Name Comparator
+    ● Create ItemNameComparator class implementing Comparator<Item>
+    ● Compare names lexicographically
+
+Step 2: Create Quantity Comparator
+    ● Create ItemQuantityComparator class implementing Comparator<Item>
+    ● Sort by quantity in descending order (highest quantity first)
+
+Step 3: Add Filtering Methods to Inventory
+    Price Filter:
+        ● Create filterByPrice(double minPrice, double maxPrice) method
+    Availability Filter:
+        ● Create filterByAvailability() method
+
+Step 4: Add Sorting Method
+    ● Create sortItems(Comparator<T> comparator) method
