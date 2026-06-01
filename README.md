@@ -1,5 +1,7 @@
-# LiveLabSessions
+# Live Lab Sessions
 Central repository containing documentation, setup instructions, and links to all the projects created during Scaler live sessions.
+
+
 
 
 # Library Management System
